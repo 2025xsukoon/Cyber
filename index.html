@@ -185,23 +185,21 @@
             left: 100%;
         }
 
-        .btn-telegram {
-            background-color: #0088cc; /* Telegram brand color */
-            color: white;
+        /* Styling for the Telegram Widget button */
+        /* Note: The Telegram widget generates its own button,
+           so direct styling of .btn-telegram might not apply.
+           We'll rely on the widget's default styling or
+           target its generated elements if custom styling is needed.
+           For now, we remove the .btn-telegram specific styles
+           as it's no longer a custom button. */
+        .telegram-login-widget-container {
+            margin-bottom: 20px; /* To match spacing of previous button */
+            display: flex;
+            justify-content: center; /* Center the widget button */
             animation: slideInRight 0.7s ease-out 0.1s forwards;
             opacity: 0; /* Start invisible for animation */
         }
 
-        .btn-telegram i {
-            margin-right: 10px;
-            font-size: 1.3rem;
-        }
-
-        .btn-telegram:hover {
-            background-color: #007bb6;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
-        }
 
         .secondary-buttons {
             display: flex;
@@ -420,10 +418,10 @@
                     <p>Must set your name, username and profile picture in your Telegram Account.</p>
                 </div>
 
-                <button class="btn btn-telegram">
-                    <i class="fab fa-telegram-plane"></i>
-                    Log in with Telegram
-                </button>
+                <!-- Telegram Login Widget will be inserted here -->
+                <div class="telegram-login-widget-container">
+                    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="S4XSHIELD" data-size="large" data-radius="20" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+                </div>
 
                 <div class="secondary-buttons">
                     <button class="btn btn-contact">CONTACT ADMIN</button>
@@ -464,63 +462,86 @@
         </div>
     </footer>
 
-    <script>
+    <script type="text/javascript">
+        // Function to display a custom message box instead of alert()
+        function showMessageBox(message) {
+            const messageBox = document.createElement('div');
+            messageBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #1a2a4a;
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+                z-index: 9999;
+                text-align: center;
+                font-family: 'Inter', sans-serif;
+                max-width: 80%;
+                word-wrap: break-word;
+            `;
+            messageBox.innerHTML = `<p>${message}</p><button style="margin-top: 15px; padding: 8px 15px; background-color: #00bcd4; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>`;
+            document.body.appendChild(messageBox);
+
+            // Close the message box when OK is clicked
+            messageBox.querySelector('button').addEventListener('click', () => {
+                document.body.removeChild(messageBox);
+            });
+
+            // Close the message box if clicked outside (optional)
+            messageBox.addEventListener('click', (event) => {
+                if (event.target === messageBox) {
+                    document.body.removeChild(messageBox);
+                }
+            });
+        }
+
+        // This function is called by the Telegram Login Widget upon successful authentication
+        function onTelegramAuth(user) {
+            // In a real application, you would send this 'user' data to your backend
+            // for hash verification and session management.
+            // For now, we'll just display the user info.
+            let userInfo = 'Logged in as ' + user.first_name;
+            if (user.last_name) userInfo += ' ' + user.last_name;
+            userInfo += ' (ID: ' + user.id;
+            if (user.username) userInfo += ', @' + user.username;
+            userInfo += ')';
+
+            showMessageBox(userInfo + '<br><br>Now, this user data needs to be sent to your backend server for secure verification using your Bot Token.');
+
+            // Example of sending data to backend (conceptual, requires a backend endpoint):
+            /*
+            fetch('/your-backend-auth-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user), // 'user' object contains all data from Telegram
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessageBox('Backend verification successful! Redirecting...');
+                    // window.location.href = '/dashboard'; // Redirect to dashboard
+                } else {
+                    showMessageBox('Backend verification failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error sending data to backend:', error);
+                showMessageBox('An error occurred during login. Please try again.');
+            });
+            */
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Get references to the buttons
-            const telegramLoginBtn = document.querySelector('.btn-telegram');
+            // Get references to the secondary buttons
             const contactAdminBtn = document.querySelector('.btn-contact');
             const joinCommunityBtn = document.querySelector('.btn-community');
 
-            // Function to display a custom message box instead of alert()
-            function showMessageBox(message) {
-                const messageBox = document.createElement('div');
-                messageBox.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background-color: #1a2a4a;
-                    color: white;
-                    padding: 20px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
-                    z-index: 9999;
-                    text-align: center;
-                    font-family: 'Inter', sans-serif;
-                    max-width: 80%;
-                    word-wrap: break-word;
-                `;
-                messageBox.innerHTML = `<p>${message}</p><button style="margin-top: 15px; padding: 8px 15px; background-color: #00bcd4; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>`;
-                document.body.appendChild(messageBox);
-
-                // Close the message box when OK is clicked
-                messageBox.querySelector('button').addEventListener('click', () => {
-                    document.body.removeChild(messageBox);
-                });
-
-                // Close the message box if clicked outside (optional)
-                messageBox.addEventListener('click', (event) => {
-                    if (event.target === messageBox) {
-                        document.body.removeChild(messageBox);
-                    }
-                });
-            }
-
-            // Add event listeners to the buttons
-            if (telegramLoginBtn) {
-                telegramLoginBtn.addEventListener('click', () => {
-                    // In a real application, this would trigger the Telegram OAuth flow.
-                    // For now, it shows a message.
-                    showMessageBox('Initiating Telegram Login... (This would typically redirect to Telegram for authentication)');
-                    // Example of a real redirect (uncomment and replace YOUR_BOT_USERNAME and YOUR_RETURN_URL with actual values):
-                    /*
-                    const botUsername = 'YOUR_BOT_USERNAME'; // Replace with your Telegram bot's username
-                    const returnUrl = encodeURIComponent('YOUR_RETURN_URL'); // Replace with the URL Telegram should redirect back to
-                    window.location.href = `https://oauth.telegram.org/auth?bot_id=${botUsername}&origin=${window.location.origin}&return_url=${returnUrl}`;
-                    */
-                });
-            }
-
+            // Add event listeners to the secondary buttons
             if (contactAdminBtn) {
                 contactAdminBtn.addEventListener('click', () => {
                     showMessageBox('Contact Admin functionality would go here. (e.g., open a contact form or email client)');
@@ -532,6 +553,8 @@
                     showMessageBox('Join Community functionality would go here. (e.g., redirect to a Telegram group link)');
                 });
             }
+            // The Telegram login button's click event is now handled by the widget itself via data-onauth
+            // So, the previous telegramLoginBtn.addEventListener is removed.
         });
     </script>
 </body>
