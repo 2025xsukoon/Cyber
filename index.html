@@ -55,6 +55,21 @@
             /* Content section specific */
             --content-section-bg: var(--card-bg);
             --content-section-border: rgba(0, 188, 212, 0.3);
+
+            /* Form elements */
+            --input-bg: #0a192f;
+            --input-border: rgba(0, 188, 212, 0.3);
+            --input-text: var(--text-light);
+            --input-placeholder: var(--text-muted);
+            --select-arrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+
+            /* Buy Plan Cards */
+            --plan-card-bg: #112240;
+            --plan-card-border: rgba(0, 188, 212, 0.3);
+            --plan-card-hover-border: #00bcd4;
+            --plan-price-color: var(--accent-blue);
+            --plan-button-bg: linear-gradient(90deg, #ff6b6b, #ffa07a); /* Orange-red gradient */
+            --plan-button-hover-bg: linear-gradient(90deg, #ff4d4d, #ff8c69);
         }
 
         body.light-mode {
@@ -94,6 +109,21 @@
             /* Content section specific */
             --content-section-bg: var(--card-bg);
             --content-section-border: rgba(0, 123, 255, 0.2);
+
+            /* Form elements */
+            --input-bg: #f8f9fa;
+            --input-border: rgba(0, 123, 255, 0.2);
+            --input-text: var(--text-light);
+            --input-placeholder: var(--text-muted);
+            --select-arrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+
+            /* Buy Plan Cards */
+            --plan-card-bg: #f8f9fa;
+            --plan-card-border: rgba(0, 123, 255, 0.2);
+            --plan-card-hover-border: #007bff;
+            --plan-price-color: var(--primary-blue);
+            --plan-button-bg: linear-gradient(90deg, #ff6b6b, #ffa07a); /* Keep consistent */
+            --plan-button-hover-bg: linear-gradient(90deg, #ff4d4d, #ff8c69);
         }
 
         body {
@@ -579,7 +609,7 @@
         .main-content {
             flex-grow: 1;
             padding: 0 10px;
-            position: relative; /* For absolute positioning of content sections */
+            position: relative;
         }
 
         .content-section {
@@ -590,20 +620,20 @@
             box-shadow: 0 5px 15px var(--box-shadow-color);
             border: 1px solid var(--content-section-border);
             transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
-            min-height: 400px; /* Ensure content sections have a minimum height */
-            display: none; /* Hidden by default */
+            min-height: 400px;
+            display: none;
             opacity: 0;
-            position: absolute; /* Position absolutely to prevent layout shifts */
+            position: absolute;
             top: 0;
-            left: 10px; /* Match main-content padding */
-            right: 10px; /* Match main-content padding */
-            width: calc(100% - 20px); /* Adjust for padding */
+            left: 10px;
+            right: 10px;
+            width: calc(100% - 20px);
         }
 
         .content-section.active {
             display: block;
             opacity: 1;
-            position: relative; /* Take up space when active */
+            position: relative;
         }
 
         .content-section h2 {
@@ -612,6 +642,15 @@
             margin-bottom: 20px;
             text-align: center;
             transition: color 0.3s ease;
+        }
+
+        .content-section h3 { /* Subheadings within sections */
+            font-size: 1.4rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--navbar-border);
+            padding-bottom: 8px;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
         }
 
         .content-section p {
@@ -791,102 +830,239 @@
             transform: translateY(-2px);
         }
 
-        /* Keyframe Animations (retained) */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Form elements styling */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
         }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 600;
         }
 
-        @keyframes slideInLeft {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
         }
 
-        @keyframes slideInRight {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .form-group input[type="text"]::placeholder {
+            color: var(--input-placeholder);
         }
 
-        @keyframes slideInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .form-group select {
+            appearance: none; /* Remove default arrow */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: var(--select-arrow);
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+            cursor: pointer;
         }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+        .form-action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .form-action-buttons .btn {
+            width: auto;
+            min-width: 120px;
+            margin-bottom: 0;
+        }
+
+        /* Buy Plans Grid */
+        .buy-plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .plan-card {
+            background-color: var(--plan-card-bg);
+            border: 1px solid var(--plan-card-border);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--plan-card-hover-border);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        body.light-mode .plan-card:hover {
+             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
 
-        /* Responsive Design */
-        @media (max-width: 767px) {
-            .dashboard-container {
-                flex-direction: column;
-            }
-            .sidebar, .right-sidebar {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-            .main-content {
-                padding: 0;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .content-section {
-                left: 0;
-                right: 0;
-                width: 100%;
-            }
+        .plan-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
         }
 
-        @media (max-width: 600px) {
-            .login-card {
-                padding: 30px 20px;
-            }
-
-            .login-card h1 {
-                font-size: 1.8rem;
-            }
-
-            .btn {
-                font-size: 1rem;
-                padding: 12px 20px;
-            }
-
-            .secondary-buttons {
-                flex-direction: column;
-            }
-
-            .secondary-buttons .btn {
-                width: 100%;
-            }
-
-            .features {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .feature-item {
-                width: 80%;
-                max-width: unset;
-            }
-
-            .text-block h2 {
-                font-size: 1.2rem;
-            }
-
-            .text-block p {
-                font-size: 0.9rem;
-            }
+        .plan-card .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--plan-price-color);
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
         }
+
+        .plan-card .price span {
+            font-size: 1rem;
+            font-weight: normal;
+            color: var(--text-muted);
+        }
+
+        .plan-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .plan-card ul li {
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .plan-card ul li::before {
+            content: "\f00c"; /* Font Awesome check icon */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: var(--accent-green);
+            position: absolute;
+            left: -20px;
+            top: 2px;
+        }
+
+        .plan-card .buy-btn {
+            background: var(--plan-button-bg);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            border: none;
+            width: 100%;
+        }
+
+        .plan-card .buy-btn:hover {
+            background: var(--plan-button-hover-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Redemption History Table */
+        .redemption-history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        .redemption-history-table th,
+        .redemption-history-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--navbar-border);
+            color: var(--text-light);
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+
+        .redemption-history-table th {
+            background-color: rgba(0, 188, 212, 0.1);
+            font-weight: bold;
+            color: var(--accent-blue);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .redemption-history-table tbody tr:hover {
+            background-color: rgba(0, 188, 212, 0.05);
+        }
+
+        .no-history-message {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Admin Panel Specific Styles */
+        .admin-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--navbar-border);
+        }
+        .admin-section:last-child {
+            border-bottom: none;
+        }
+
+        .admin-section h3 {
+            font-size: 1.4rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .admin-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .admin-action-card {
+            background-color: var(--stat-card-bg);
+            border: 1px solid var(--stat-card-border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px var(--box-shadow-color);
+            transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .admin-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .admin-action-card i {
+            font-size: 3rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+        }
+
+        .admin-action-card p {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .admin-action-card .btn {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -978,6 +1154,7 @@
                         <li><a href="#" class="sidebar-link" data-section="auto-hitter-content"><i class="fas fa-robot"></i> Auto Hitter <span style="font-size: 0.7em; opacity: 0.7;">[ Beta ]</span></a></li>
                         <li><a href="#" class="sidebar-link" data-section="tools-content"><i class="fas fa-tools"></i> Tools</a></li>
                         <li><a href="#" class="sidebar-link" data-section="settings-content"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="#" class="sidebar-link" data-section="admin-panel-content"><i class="fas fa-user-shield"></i> Admin Panel</a></li> <!-- New Admin Panel Link -->
                         <li><a href="#" id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </nav>
@@ -995,19 +1172,19 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <h4>Total Users</h4>
-                            <p>N/A</p>
+                            <p>N/A</p> <!-- Placeholder for dynamic data -->
                         </div>
                         <div class="stat-card">
                             <h4>Total Hits</h4>
-                            <p>N/A</p>
+                            <p>N/A</p> <!-- Placeholder for dynamic data -->
                         </div>
                         <div class="stat-card">
                             <h4>Total Charge Card</h4>
-                            <p>N/A</p>
+                            <p>N/A</p> <!-- Placeholder for dynamic data -->
                         </div>
                         <div class="stat-card">
                             <h4>Total Live Cards</h4>
-                            <p>N/A</p>
+                            <p>N/A</p> <!-- Placeholder for dynamic data -->
                         </div>
                     </div>
 
@@ -1030,50 +1207,220 @@
 
                 <!-- Buy Content Section -->
                 <div id="buy-content" class="content-section">
-                    <h2>Buy Credits</h2>
-                    <p>This is the **Buy** section. Here you can purchase credits to use our services.</p>
-                    <p>Currently, credit purchasing is under development. Please check back later!</p>
-                    <!-- Add more interactive elements like payment options, credit packages here -->
+                    <h2>Buy Plans</h2>
+                    <p>Choose the plan that best suits your needs.</p>
+                    <div class="buy-plans-grid">
+                        <div class="plan-card">
+                            <h3>1 Month Plan</h3>
+                            <p class="price">$10 <span>/month</span></p>
+                            <ul>
+                                <li>Credits: 5000</li>
+                                <li>Full access</li>
+                                <li>Monthly validity</li>
+                            </ul>
+                            <button class="buy-btn" onclick="showMessageBox('1 Month Plan selected! (Payment integration required)');">Buy Now</button>
+                        </div>
+                        <div class="plan-card">
+                            <h3>3 Months Plan</h3>
+                            <p class="price">$25 <span>/3 months</span></p>
+                            <ul>
+                                <li>Credits: 12000</li>
+                                <li>Full access</li>
+                                <li>3 Months Access</li>
+                            </ul>
+                            <button class="buy-btn" onclick="showMessageBox('3 Months Plan selected! (Payment integration required)');">Buy Now</button>
+                        </div>
+                        <div class="plan-card">
+                            <h3>6 Months Plan</h3>
+                            <p class="price">$45 <span>/6 months</span></p>
+                            <ul>
+                                <li>Credits: 30000</li>
+                                <li>Full access</li>
+                                <li>6 Months Access</li>
+                            </ul>
+                            <button class="buy-btn" onclick="showMessageBox('6 Months Plan selected! (Payment integration required)');">Buy Now</button>
+                        </div>
+                        <div class="plan-card">
+                            <h3>12 Months Plan</h3>
+                            <p class="price">$80 <span>/year</span></p>
+                            <ul>
+                                <li>Credits: 100000</li>
+                                <li>Full access</li>
+                                <li>12 Months Access</li>
+                            </ul>
+                            <button class="buy-btn" onclick="showMessageBox('12 Months Plan selected! (Payment integration required)');">Buy Now</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Redeem Content Section -->
                 <div id="redeem-content" class="content-section">
-                    <h2>Redeem Code</h2>
-                    <p>This is the **Redeem** section. Enter your redemption code below to claim your rewards.</p>
-                    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
-                        <input type="text" placeholder="Enter your code" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-glow); background-color: var(--card-bg); color: var(--text-light); width: 60%; max-width: 300px;">
-                        <button class="btn" style="width: auto; margin-bottom: 0; background-color: var(--accent-green); color: white;" onclick="showMessageBox('Redeem functionality is under development!');">Redeem</button>
+                    <h2>Gift Code Redemption</h2>
+                    <div class="form-group">
+                        <label for="gift-code">Gift Code</label>
+                        <input type="text" id="gift-code" placeholder="Enter code">
                     </div>
+                    <button class="btn" style="width: auto; margin-bottom: 20px; background-color: var(--accent-green); color: white;" onclick="showMessageBox('Redeem functionality is under development!');">Redeem</button>
+
+                    <h3>Redemption History</h3>
+                    <table class="redemption-history-table">
+                        <thead>
+                            <tr>
+                                <th>CODE</th>
+                                <th>CREDITS GAINED</th>
+                                <th>REDEEM ON</th>
+                                <th>TYPE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="no-history-message">No redemption history available.</td>
+                            </tr>
+                            <!-- Example row (would be populated dynamically) -->
+                            <!--
+                            <tr>
+                                <td>GIFT123</td>
+                                <td>500</td>
+                                <td>2025-06-15</td>
+                                <td>Promo</td>
+                            </tr>
+                            -->
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Checkers Content Section -->
                 <div id="checkers-content" class="content-section">
                     <h2>Checkers</h2>
-                    <p>This is the **Checkers** section. Upload your list of items to be checked.</p>
-                    <p>Feature coming soon!</p>
-                    <button class="btn" style="width: auto; margin: 20px auto 0; background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Checkers functionality is under development!');">Upload List</button>
+                    <h3>Proxy Checker</h3>
+                    <div class="form-group">
+                        <label for="proxy-type">Proxy Type</label>
+                        <select id="proxy-type">
+                            <option value="http">HTTP</option>
+                            <option value="socks4">SOCKS4</option>
+                            <option value="socks5">SOCKS5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="proxy-address">Proxy Address (host:port or host:port:user:pass)</label>
+                        <input type="text" id="proxy-address" placeholder="e.g., host:port or host:port:user:pass">
+                    </div>
+                    <div class="form-action-buttons">
+                        <button class="btn" style="background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Proxy checking functionality is under development!');">Check</button>
+                    </div>
+                    <p style="margin-top: 20px;">No proxy settings configured.</p>
                 </div>
 
                 <!-- Auto Hitter Content Section -->
                 <div id="auto-hitter-content" class="content-section">
                     <h2>Auto Hitter [Beta]</h2>
-                    <p>This is the **Auto Hitter** section. Configure your automated tasks here.</p>
-                    <p>Currently in beta. Functionality to be added.</p>
-                    <button class="btn" style="width: auto; margin: 20px auto 0; background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Auto Hitter functionality is under development!');">Configure Hitter</button>
+                    <p>This section allows you to configure automated tasks.</p>
+                    <p>Currently in beta. Functionality to be added for automated operations like auto-hitting specific targets or processes.</p>
+                    <div class="form-action-buttons">
+                        <button class="btn" style="background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Auto Hitter configuration is under development!');">Configure Hitter</button>
+                    </div>
                 </div>
 
                 <!-- Tools Content Section -->
                 <div id="tools-content" class="content-section">
                     <h2>Tools</h2>
-                    <p>This is the **Tools** section. Explore various utilities and helpful features.</p>
-                    <p>More tools will be added here soon!</p>
+                    <p>Explore various utilities and helpful features provided by S4Shield.</p>
+                    <p>More tools will be added here soon, such as data converters, validators, and more!</p>
+                    <div class="form-action-buttons">
+                        <button class="btn" style="background-color: var(--primary-blue); color: white;" onclick="showMessageBox('No specific tools available yet. Check back soon!');">Browse Tools</button>
+                    </div>
                 </div>
 
                 <!-- Settings Content Section -->
                 <div id="settings-content" class="content-section">
                     <h2>Settings</h2>
-                    <p>This is the **Settings** section. Manage your account preferences.</p>
-                    <p>User profile settings, security options, and notifications will be configurable here.</p>
+                    <h3>Proxy Settings</h3>
+                    <div class="form-group">
+                        <label for="settings-proxy-type">Proxy Type</label>
+                        <select id="settings-proxy-type">
+                            <option value="http">HTTP</option>
+                            <option value="socks4">SOCKS4</option>
+                            <option value="socks5">SOCKS5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-proxy-address">Proxy Address (host:port or host:port:user:pass)</label>
+                        <input type="text" id="settings-proxy-address" placeholder="e.g., host:port or host:port:user:pass">
+                    </div>
+                    <div class="form-action-buttons">
+                        <button class="btn" style="background-color: var(--accent-green); color: white;" onclick="showMessageBox('Saving proxy settings requires backend integration.');">Save Settings</button>
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Account Settings</h3>
+                    <p>Manage your general account preferences, notifications, and security options here.</p>
+                    <div class="form-action-buttons">
+                        <button class="btn" style="background-color: var(--primary-blue); color: white;" onclick="showMessageBox('Account settings functionality is under development.');">Edit Profile</button>
+                    </div>
+                </div>
+
+                <!-- Admin Panel Content Section -->
+                <div id="admin-panel-content" class="content-section">
+                    <h2>Admin Panel</h2>
+                    <p>Welcome to the **Admin Panel**. This area is for administrative tasks and platform management.</p>
+                    <p>Please note: A fully functional admin panel requires robust backend authentication and database access.</p>
+
+                    <div class="admin-section">
+                        <h3>User Management</h3>
+                        <div class="admin-actions-grid">
+                            <div class="admin-action-card">
+                                <i class="fas fa-users"></i>
+                                <p>View All Users</p>
+                                <button class="btn" style="background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Viewing user list requires backend access.');">Go to Users</button>
+                            </div>
+                            <div class="admin-action-card">
+                                <i class="fas fa-user-plus"></i>
+                                <p>Add New User</p>
+                                <button class="btn" style="background-color: var(--accent-green); color: white;" onclick="showMessageBox('Adding new users requires backend access.');">Add User</button>
+                            </div>
+                            <div class="admin-action-card">
+                                <i class="fas fa-user-times"></i>
+                                <p>Delete User</p>
+                                <button class="btn" style="background-color: #dc3545; color: white;" onclick="showMessageBox('Deleting users requires backend access.');">Delete User</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3>Platform Control</h3>
+                        <div class="admin-actions-grid">
+                            <div class="admin-action-card">
+                                <i class="fas fa-cogs"></i>
+                                <p>Global Settings</p>
+                                <button class="btn" style="background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Managing global settings requires backend access.');">Manage Settings</button>
+                            </div>
+                            <div class="admin-action-card">
+                                <i class="fas fa-bullhorn"></i>
+                                <p>Send Announcement</p>
+                                <button class="btn" style="background-color: var(--accent-green); color: white;" onclick="showMessageBox('Sending announcements requires backend access.');">Send</button>
+                            </div>
+                            <div class="admin-action-card">
+                                <i class="fas fa-chart-line"></i>
+                                <p>View Analytics</p>
+                                <button class="btn" style="background-color: var(--primary-blue); color: white;" onclick="showMessageBox('Viewing analytics requires backend access.');">View Data</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3>Content Management</h3>
+                        <div class="admin-actions-grid">
+                            <div class="admin-action-card">
+                                <i class="fas fa-file-alt"></i>
+                                <p>Manage Articles</p>
+                                <button class="btn" style="background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Managing articles requires backend access.');">Edit Articles</button>
+                            </div>
+                            <div class="admin-action-card">
+                                <i class="fas fa-tags"></i>
+                                <p>Manage Products</p>
+                                <button class="btn" style="background-color: var(--accent-green); color: white;" onclick="showMessageBox('Managing products requires backend access.');">Edit Products</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </section>
@@ -1082,6 +1429,7 @@
             <aside class="right-sidebar">
                 <h3>Online Users</h3>
                 <ul class="online-users-list">
+                    <!-- These would be populated dynamically from a backend -->
                     <li class="online-user-item">
                         <img src="https://placehold.co/40x40/00bcd4/ffffff?text=B" alt="User Avatar">
                         <div class="info">
@@ -1109,10 +1457,18 @@
                             <p id="online-current-username">@loading_user</p>
                         </div>
                     </li>
+                    <li class="online-user-item">
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=A" alt="User Avatar">
+                        <div class="info">
+                            <p>Another User</p>
+                            <span>@another_user</span>
+                        </div>
+                    </li>
                 </ul>
 
                 <h3>Top Karders</h3>
                 <ul class="top-karders-list">
+                    <!-- These would be populated dynamically from a backend -->
                     <li class="top-karder-item">
                         <div class="rank">1</div>
                         <img src="https://placehold.co/40x40/00bcd4/ffffff?text=X" alt="Karder Avatar">
