@@ -51,6 +51,10 @@
             --top-karder-border: rgba(0, 188, 212, 0.3);
             --top-karder-rank-bg: #00bcd4; /* Accent color for rank */
             --top-karder-rank-text: #fff;
+
+            /* Content section specific */
+            --content-section-bg: var(--card-bg);
+            --content-section-border: rgba(0, 188, 212, 0.3);
         }
 
         body.light-mode {
@@ -86,6 +90,10 @@
             --top-karder-border: rgba(0, 123, 255, 0.2);
             --top-karder-rank-bg: #007bff; /* Primary blue for rank */
             --top-karder-rank-text: #fff;
+
+            /* Content section specific */
+            --content-section-bg: var(--card-bg);
+            --content-section-border: rgba(0, 123, 255, 0.2);
         }
 
         body {
@@ -567,12 +575,54 @@
             color: var(--primary-blue);
         }
 
-        /* Main Content */
+        /* Main Content Area - General Styling for Sections */
         .main-content {
             flex-grow: 1;
             padding: 0 10px;
+            position: relative; /* For absolute positioning of content sections */
         }
 
+        .content-section {
+            background-color: var(--content-section-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+            border: 1px solid var(--content-section-border);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+            min-height: 400px; /* Ensure content sections have a minimum height */
+            display: none; /* Hidden by default */
+            opacity: 0;
+            position: absolute; /* Position absolutely to prevent layout shifts */
+            top: 0;
+            left: 10px; /* Match main-content padding */
+            right: 10px; /* Match main-content padding */
+            width: calc(100% - 20px); /* Adjust for padding */
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            position: relative; /* Take up space when active */
+        }
+
+        .content-section h2 {
+            font-size: 1.8rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .content-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        /* Dashboard specific content */
         .welcome-banner {
             background-color: var(--card-bg);
             border-radius: 15px;
@@ -790,6 +840,11 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+            .content-section {
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
         }
 
         @media (max-width: 600px) {
@@ -911,18 +966,18 @@
                     <p>Free User</p>
                 </div>
                 <div class="user-stats">
-                    <p>Credits: <span id="dashboard-credits">100</span></p>
-                    <p>Expiry: <span id="dashboard-expiry">2025-07-31</span></p>
+                    <p>Credits: <span id="dashboard-credits">N/A</span></p>
+                    <p>Expiry: <span id="dashboard-expiry">N/A</span></p>
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                        <li><a href="#"><i class="fas fa-shopping-cart"></i> Buy</a></li>
-                        <li><a href="#"><i class="fas fa-gift"></i> Redeem</a></li>
-                        <li><a href="#"><i class="fas fa-check-double"></i> Checkers</a></li>
-                        <li><a href="#"><i class="fas fa-robot"></i> Auto Hitter <span style="font-size: 0.7em; opacity: 0.7;">[ Beta ]</span></a></li>
-                        <li><a href="#"><i class="fas fa-tools"></i> Tools</a></li>
-                        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="#" class="sidebar-link active" data-section="dashboard-content"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="#" class="sidebar-link" data-section="buy-content"><i class="fas fa-shopping-cart"></i> Buy</a></li>
+                        <li><a href="#" class="sidebar-link" data-section="redeem-content"><i class="fas fa-gift"></i> Redeem</a></li>
+                        <li><a href="#" class="sidebar-link" data-section="checkers-content"><i class="fas fa-check-double"></i> Checkers</a></li>
+                        <li><a href="#" class="sidebar-link" data-section="auto-hitter-content"><i class="fas fa-robot"></i> Auto Hitter <span style="font-size: 0.7em; opacity: 0.7;">[ Beta ]</span></a></li>
+                        <li><a href="#" class="sidebar-link" data-section="tools-content"><i class="fas fa-tools"></i> Tools</a></li>
+                        <li><a href="#" class="sidebar-link" data-section="settings-content"><i class="fas fa-cog"></i> Settings</a></li>
                         <li><a href="#" id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </nav>
@@ -930,45 +985,97 @@
 
             <!-- Main Content Area -->
             <section class="main-content">
-                <div class="welcome-banner">
-                    <h2>Welcome, <span id="welcome-user-name">Guest</span> 👋</h2>
+                <!-- Dashboard Content Section -->
+                <div id="dashboard-content" class="content-section active">
+                    <div class="welcome-banner">
+                        <h2>Welcome, <span id="welcome-user-name">Guest</span> 👋</h2>
+                    </div>
+
+                    <h2>Global Stats</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Total Users</h4>
+                            <p>N/A</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Hits</h4>
+                            <p>N/A</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Charge Card</h4>
+                            <p>N/A</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Live Cards</h4>
+                            <p>N/A</p>
+                        </div>
+                    </div>
+
+                    <h2>Your Stats</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Total Hits</h4>
+                            <p id="your-total-hits">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Charge Card</h4>
+                            <p id="your-total-charge-card">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Live Cards</h4>
+                            <p id="your-total-live-cards">0</p>
+                        </div>
+                    </div>
                 </div>
 
-                <h3>Global Stats</h3>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h4>Total Users</h4>
-                        <p>857</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Total Hits</h4>
-                        <p>26527</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Total Charge Card</h4>
-                        <p>3328</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Total Live Cards</h4>
-                        <p>23199</p>
+                <!-- Buy Content Section -->
+                <div id="buy-content" class="content-section">
+                    <h2>Buy Credits</h2>
+                    <p>This is the **Buy** section. Here you can purchase credits to use our services.</p>
+                    <p>Currently, credit purchasing is under development. Please check back later!</p>
+                    <!-- Add more interactive elements like payment options, credit packages here -->
+                </div>
+
+                <!-- Redeem Content Section -->
+                <div id="redeem-content" class="content-section">
+                    <h2>Redeem Code</h2>
+                    <p>This is the **Redeem** section. Enter your redemption code below to claim your rewards.</p>
+                    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+                        <input type="text" placeholder="Enter your code" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-glow); background-color: var(--card-bg); color: var(--text-light); width: 60%; max-width: 300px;">
+                        <button class="btn" style="width: auto; margin-bottom: 0; background-color: var(--accent-green); color: white;" onclick="showMessageBox('Redeem functionality is under development!');">Redeem</button>
                     </div>
                 </div>
 
-                <h3>Your Stats</h3>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h4>Total Hits</h4>
-                        <p id="your-total-hits">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Total Charge Card</h4>
-                        <p id="your-total-charge-card">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Total Live Cards</h4>
-                        <p id="your-total-live-cards">0</p>
-                    </div>
+                <!-- Checkers Content Section -->
+                <div id="checkers-content" class="content-section">
+                    <h2>Checkers</h2>
+                    <p>This is the **Checkers** section. Upload your list of items to be checked.</p>
+                    <p>Feature coming soon!</p>
+                    <button class="btn" style="width: auto; margin: 20px auto 0; background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Checkers functionality is under development!');">Upload List</button>
                 </div>
+
+                <!-- Auto Hitter Content Section -->
+                <div id="auto-hitter-content" class="content-section">
+                    <h2>Auto Hitter [Beta]</h2>
+                    <p>This is the **Auto Hitter** section. Configure your automated tasks here.</p>
+                    <p>Currently in beta. Functionality to be added.</p>
+                    <button class="btn" style="width: auto; margin: 20px auto 0; background-color: var(--accent-blue); color: white;" onclick="showMessageBox('Auto Hitter functionality is under development!');">Configure Hitter</button>
+                </div>
+
+                <!-- Tools Content Section -->
+                <div id="tools-content" class="content-section">
+                    <h2>Tools</h2>
+                    <p>This is the **Tools** section. Explore various utilities and helpful features.</p>
+                    <p>More tools will be added here soon!</p>
+                </div>
+
+                <!-- Settings Content Section -->
+                <div id="settings-content" class="content-section">
+                    <h2>Settings</h2>
+                    <p>This is the **Settings** section. Manage your account preferences.</p>
+                    <p>User profile settings, security options, and notifications will be configurable here.</p>
+                </div>
+
             </section>
 
             <!-- Right Sidebar -->
@@ -1013,7 +1120,7 @@
                             <p>XUEBA</p>
                             <span>@indoorsun</span>
                         </div>
-                        <span class="hits">2,987 Hits</span>
+                        <span class="hits">N/A Hits</span>
                     </li>
                     <li class="top-karder-item">
                         <div class="rank">2</div>
@@ -1022,7 +1129,7 @@
                             <p>Sir Walter Melon</p>
                             <span>@SirWalterMelon</span>
                         </div>
-                        <span class="hits">1,704 Hits</span>
+                        <span class="hits">N/A Hits</span>
                     </li>
                     <li class="top-karder-item">
                         <div class="rank">3</div>
@@ -1031,7 +1138,7 @@
                             <p>H A M A D</p>
                             <span>@MrxHamad</span>
                         </div>
-                        <span class="hits">1,638 Hits</span>
+                        <span class="hits">N/A Hits</span>
                     </li>
                     <li class="top-karder-item">
                         <div class="rank">4</div>
@@ -1040,7 +1147,7 @@
                             <p>Kushiya Jay</p>
                             <span>@kushiya_jay</span>
                         </div>
-                        <span class="hits">1,258 Hits</span>
+                        <span class="hits">N/A Hits</span>
                     </li>
                     <li class="top-karder-item">
                         <div class="rank">5</div>
@@ -1049,10 +1156,10 @@
                             <p>Zyltho</p>
                             <span>@Zyltho</span>
                         </div>
-                        <span class="hits">744 Hits</span>
+                        <span class="hits">N/A Hits</span>
                     </li>
                 </ul>
-                <button class="show-all-btn">Show All</button>
+                <button class="show-all-btn" onclick="showMessageBox('Showing all top karders functionality is under development!');">Show All</button>
             </aside>
         </div>
     </div>
@@ -1111,6 +1218,8 @@
         let themeToggle;
         let themeToggleIcon;
         let body;
+        let sidebarLinks;
+        let contentSections;
 
         document.addEventListener('DOMContentLoaded', () => {
             // Get references to page elements
@@ -1124,6 +1233,8 @@
             themeToggle = document.getElementById('theme-toggle');
             themeToggleIcon = themeToggle.querySelector('i');
             body = document.body;
+            sidebarLinks = document.querySelectorAll('.sidebar-link');
+            contentSections = document.querySelectorAll('.content-section');
 
             // Function to set the theme
             function setTheme(isLightMode) {
@@ -1153,6 +1264,19 @@
                 setTheme(!body.classList.contains('light-mode'));
             });
 
+            // Function to display a specific content section
+            function showSection(sectionId) {
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                document.getElementById(sectionId).classList.add('active');
+                document.querySelector(`.sidebar-link[data-section="${sectionId}"]`).classList.add('active');
+            }
+
             // Function to display the dashboard
             function displayDashboard(user) {
                 // Populate user data on dashboard
@@ -1172,6 +1296,7 @@
                 // Simulate showing dashboard and hiding login
                 loginPage.classList.add('hidden');
                 dashboardPage.classList.add('visible');
+                showSection('dashboard-content'); // Show the main dashboard content by default
             }
 
             // Function to display the login page
@@ -1198,6 +1323,17 @@
                     displayDashboard(user);
                 }, 1500); // Show dashboard after 1.5 seconds
             };
+
+            // Event listener for sidebar links
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    const sectionId = link.getAttribute('data-section');
+                    if (sectionId) {
+                        showSection(sectionId);
+                    }
+                });
+            });
 
             // Event listener for the Logout button
             if (logoutButton) {
