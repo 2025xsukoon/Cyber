@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S4Shield Login</title>
+    <title>S4Shield</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://github.com/2025xsukoon/Cyber/raw/main/logo.png">
     <!-- Google Fonts - Inter for modern look -->
@@ -19,14 +19,73 @@
         }
 
         :root {
-            --bg-dark: #0a192f; /* Dark background */
-            --primary-blue: #007bff; /* Example blue, adjust to match image */
-            --accent-blue: #00bcd4; /* Brighter accent blue - used for glow */
-            --accent-green: #28a745; /* Green for community button */
+            /* Dark Mode Variables (Default) */
+            --bg-dark: #0a192f;
+            --primary-blue: #007bff;
+            --accent-blue: #00bcd4;
+            --accent-green: #28a745;
             --text-light: #e0e0e0;
             --text-muted: #a0a0a0;
-            --card-bg: #112240; /* Slightly lighter dark for card */
-            --border-glow: #00bcd4; /* For glowing borders */
+            --card-bg: #112240;
+            --border-glow: #00bcd4;
+            --box-shadow-color: rgba(0, 0, 0, 0.3);
+            --info-message-bg: rgba(0, 123, 255, 0.2);
+            --feature-item-bg: rgba(0, 188, 212, 0.15);
+            --navbar-border: rgba(255, 255, 255, 0.1);
+            --button-contact-bg: rgba(255, 255, 255, 0.1);
+            --button-contact-hover-bg: rgba(255, 255, 255, 0.15);
+            --telegram-btn-bg: #0088cc;
+            --telegram-btn-hover-bg: #007bb6;
+            --community-btn-bg: var(--accent-green);
+            --community-btn-hover-bg: #218838;
+
+            /* Dashboard specific */
+            --dashboard-bg: #0a192f;
+            --sidebar-bg: #0b1d35;
+            --sidebar-link-hover: #00bcd4;
+            --sidebar-active-link-bg: rgba(0, 188, 212, 0.2);
+            --stat-card-bg: #112240;
+            --stat-card-border: rgba(0, 188, 212, 0.3);
+            --online-user-card-bg: #112240;
+            --top-karder-card-bg: #112240;
+            --top-karder-border: rgba(0, 188, 212, 0.3);
+            --top-karder-rank-bg: #00bcd4; /* Accent color for rank */
+            --top-karder-rank-text: #fff;
+        }
+
+        body.light-mode {
+            /* Light Mode Variables */
+            --bg-dark: #f0f2f5;
+            --primary-blue: #007bff;
+            --accent-blue: #0056b3;
+            --accent-green: #28a745;
+            --text-light: #333;
+            --text-muted: #666;
+            --card-bg: #ffffff;
+            --border-glow: #0056b3;
+            --box-shadow-color: rgba(0, 0, 0, 0.1);
+            --info-message-bg: rgba(0, 123, 255, 0.1);
+            --feature-item-bg: rgba(0, 86, 179, 0.1);
+            --navbar-border: rgba(0, 0, 0, 0.1);
+            --button-contact-bg: #e0e0e0;
+            --button-contact-hover-bg: #d0d0d0;
+            --telegram-btn-bg: #0088cc;
+            --telegram-btn-hover-bg: #007bb6;
+            --community-btn-bg: var(--accent-green);
+            --community-btn-hover-bg: #218838;
+
+            /* Dashboard specific for Light Mode */
+            --dashboard-bg: #e9ecef;
+            --sidebar-bg: #ffffff;
+            --sidebar-link-hover: #007bff;
+            --sidebar-active-link-bg: rgba(0, 123, 255, 0.1);
+            --stat-card-bg: #ffffff;
+            --stat-card-border: rgba(0, 123, 255, 0.2);
+            --online-user-card-bg: #ffffff;
+            --top-karder-card-bg: #ffffff;
+            --top-karder-border: rgba(0, 123, 255, 0.2);
+            --top-karder-rank-bg: #007bff; /* Primary blue for rank */
+            --top-karder-rank-text: #fff;
         }
 
         body {
@@ -37,8 +96,9 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            overflow-x: hidden; /* Prevent horizontal scroll from subtle effects */
-            position: relative; /* For pseudo-element positioning */
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Subtle background effects (static dots) */
@@ -49,26 +109,33 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(circle, rgba(0, 188, 212, 0.1) 1px, transparent 1px);
+            background-image: radial-gradient(circle, var(--border-glow) 1px, transparent 1px);
             background-size: 20px 20px;
-            opacity: 0.3;
+            opacity: 0.15;
             z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        body.light-mode::before {
+            background-image: radial-gradient(circle, var(--border-glow) 1px, transparent 1px);
+            opacity: 0.08;
         }
 
         .container {
-            max-width: 900px; /* Adjust as needed */
+            max-width: 900px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
         /* Navbar */
         .navbar {
-            background-color: transparent; /* Or a very subtle dark */
+            background-color: transparent;
             padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--navbar-border);
             position: sticky;
             top: 0;
             z-index: 1000;
+            transition: border-bottom-color 0.3s ease;
         }
 
         .navbar .container {
@@ -82,15 +149,37 @@
             text-decoration: none;
             font-size: 1.2rem;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
 
-        /* Main Login Section */
-        .login-section {
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        /* --- Login Section Styles --- */
+        #login-page {
             flex-grow: 1;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to top initially, center vertically if content is small */
+            align-items: flex-start;
             padding: 40px 0;
+            transition: opacity 0.5s ease;
+        }
+
+        #login-page.hidden {
+            display: none;
+            opacity: 0;
+            pointer-events: none; /* Disable interactions when hidden */
         }
 
         .login-card {
@@ -99,31 +188,37 @@
             border-radius: 15px;
             text-align: center;
             width: 100%;
-            max-width: 500px; /* Max width for the card */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 188, 212, 0.3); /* Subtle border matching glow */
+            max-width: 500px;
+            box-shadow: 0 10px 30px var(--box-shadow-color);
+            border: 1px solid rgba(0, 188, 212, 0.3);
             animation: fadeIn 1s ease-out;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-mode .login-card {
+            border-color: rgba(0, 86, 179, 0.2);
         }
 
         .logo-box-icon {
             background-color: var(--accent-blue);
             width: 60px;
             height: 60px;
-            border-radius: 15px; /* Slightly rounded rectangle */
+            border-radius: 15px;
             margin: 0 auto 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 15px var(--accent-blue); /* Subtle glow */
+            box-shadow: 0 0 15px var(--accent-blue);
             animation: bounceIn 0.8s ease-out;
-            overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .logo-box-icon img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Ensure the image fits within the box */
-            padding: 5px; /* Add some padding around the logo if needed */
+            object-fit: contain;
+            padding: 5px;
         }
 
         .login-card h1 {
@@ -131,10 +226,11 @@
             color: var(--text-light);
             margin-bottom: 30px;
             letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
 
         .info-message {
-            background-color: rgba(0, 123, 255, 0.2); /* Transparent blue */
+            background-color: var(--info-message-bg);
             border-left: 5px solid var(--primary-blue);
             padding: 15px;
             margin-bottom: 30px;
@@ -145,6 +241,7 @@
             text-align: left;
             color: var(--text-light);
             animation: slideInLeft 0.7s ease-out;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .info-message i {
@@ -152,7 +249,7 @@
             font-size: 1.3rem;
         }
 
-        /* Buttons */
+        /* Buttons (general styling for custom buttons) */
         .btn {
             display: flex;
             align-items: center;
@@ -162,12 +259,12 @@
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, color 0.3s ease;
             width: 100%;
             margin-bottom: 20px;
             border: none;
-            position: relative; /* For glowing effect */
-            overflow: hidden; /* For shine effect */
+            position: relative;
+            overflow: hidden;
         }
 
         .btn::before {
@@ -185,28 +282,32 @@
             left: 100%;
         }
 
-        /* Styling for the Telegram Widget button */
-        /* Note: The Telegram widget generates its own button,
-           so direct styling of .btn-telegram might not apply.
-           We'll rely on the widget's default styling or
-           target its generated elements if custom styling is needed.
-           For now, we remove the .btn-telegram specific styles
-           as it's no longer a custom button. */
+        /* Styling for the Telegram Widget button container */
         .telegram-login-widget-container {
-            margin-bottom: 20px; /* To match spacing of previous button */
+            margin-bottom: 20px;
             display: flex;
-            justify-content: center; /* Center the widget button */
+            justify-content: center;
             animation: slideInRight 0.7s ease-out 0.1s forwards;
-            opacity: 0; /* Start invisible for animation */
+            opacity: 0;
         }
 
+        /* Specific styles for the Telegram widget's iframe, if needed */
+        .telegram-login-widget-container iframe {
+            border: none !important;
+            border-radius: 10px !important;
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+        .telegram-login-widget-container iframe:hover {
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.6);
+        }
 
         .secondary-buttons {
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
             animation: slideInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0; /* Start invisible for animation */
+            opacity: 0;
         }
 
         .secondary-buttons .btn {
@@ -215,24 +316,24 @@
         }
 
         .btn-contact {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--button-contact-bg);
             color: var(--text-light);
             border: 1px solid var(--border-glow);
         }
 
         .btn-contact:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: var(--button-contact-hover-bg);
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 5px 15px rgba(0, 188, 212, 0.3);
         }
 
         .btn-community {
-            background-color: var(--accent-green);
+            background-color: var(--community-btn-bg);
             color: white;
         }
 
         .btn-community:hover {
-            background-color: #218838;
+            background-color: var(--community-btn-hover-bg);
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
         }
@@ -243,24 +344,24 @@
             justify-content: space-around;
             gap: 15px;
             margin-bottom: 40px;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            flex-wrap: wrap;
         }
 
         .feature-item {
-            background-color: rgba(0, 188, 212, 0.15); /* Slightly transparent accent blue */
+            background-color: var(--feature-item-bg);
             border: 1px solid var(--border-glow);
             border-radius: 10px;
             padding: 20px;
             flex: 1;
-            min-width: 120px; /* Minimum width before wrapping */
+            min-width: 120px;
             max-width: 150px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
             animation: fadeInScale 0.8s ease-out forwards;
-            opacity: 0; /* Start invisible for animation */
+            opacity: 0;
         }
 
         .feature-item:nth-child(1) { animation-delay: 0.3s; }
@@ -271,17 +372,22 @@
         .feature-item i {
             font-size: 2.5rem;
             color: var(--accent-blue);
+            transition: color 0.3s ease;
         }
 
         .feature-item p {
             font-size: 0.9rem;
             font-weight: bold;
             color: var(--text-light);
+            transition: color 0.3s ease;
         }
 
         .feature-item:hover {
             transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 0 25px rgba(0, 188, 212, 0.6), 0 0 40px rgba(0, 188, 212, 0.3); /* Enhanced glow on hover */
+            box-shadow: 0 0 25px rgba(0, 188, 212, 0.6), 0 0 40px rgba(0, 188, 212, 0.3);
+        }
+        body.light-mode .feature-item:hover {
+            box-shadow: 0 0 25px rgba(0, 86, 179, 0.4), 0 0 40px rgba(0, 86, 179, 0.2);
         }
 
         /* Text Blocks */
@@ -290,21 +396,26 @@
             margin-bottom: 30px;
             padding: 0 10px;
             animation: fadeIn 1s ease-out 0.6s forwards;
-            opacity: 0; /* Start invisible for animation */
+            opacity: 0;
         }
 
         .text-block h2 {
             font-size: 1.4rem;
             color: var(--text-light);
             margin-bottom: 10px;
-            border-bottom: 2px solid rgba(0, 188, 212, 0.5); /* Subtle underline */
+            border-bottom: 2px solid rgba(0, 188, 212, 0.5);
             padding-bottom: 5px;
-            display: inline-block; /* To make border-bottom only as wide as text */
+            display: inline-block;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+        body.light-mode .text-block h2 {
+            border-bottom-color: rgba(0, 86, 179, 0.3);
         }
 
         .text-block p {
             font-size: 0.95rem;
             color: var(--text-muted);
+            transition: color 0.3s ease;
         }
 
         /* Footer */
@@ -314,10 +425,322 @@
             text-align: center;
             color: var(--text-muted);
             font-size: 0.85rem;
-            margin-top: auto; /* Pushes footer to the bottom */
+            margin-top: auto;
+            transition: color 0.3s ease;
         }
 
-        /* Keyframe Animations */
+        /* --- Dashboard Styles --- */
+        #dashboard-page {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column; /* Default to column for small screens */
+            width: 100%;
+            background-color: var(--dashboard-bg);
+            padding: 20px;
+            transition: background-color 0.3s ease, opacity 0.5s ease;
+            opacity: 0; /* Start hidden */
+            display: none; /* Hide by default */
+            pointer-events: none; /* Disable interactions when hidden */
+        }
+
+        #dashboard-page.visible {
+            display: flex; /* Show when visible */
+            opacity: 1;
+            pointer-events: auto; /* Enable interactions */
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: column; /* Default to column */
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px; /* Max width for dashboard content */
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            #dashboard-page {
+                padding: 20px 0; /* Adjust padding for larger screens */
+            }
+            .dashboard-container {
+                flex-direction: row; /* Row layout for larger screens */
+                align-items: flex-start; /* Align items to the top */
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+            min-width: 200px;
+            flex-shrink: 0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar .user-profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-blue);
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px var(--accent-blue);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar .user-profile h3 {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar .user-profile p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar .user-stats {
+            background-color: rgba(0, 188, 212, 0.1);
+            border: 1px solid rgba(0, 188, 212, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar .user-stats p {
+            margin: 5px 0;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-weight: 600;
+        }
+
+        .sidebar nav ul li a i {
+            font-size: 1.1rem;
+            transition: color 0.2s ease;
+        }
+
+        .sidebar nav ul li a:hover {
+            background-color: var(--sidebar-link-hover);
+            color: white;
+        }
+
+        .sidebar nav ul li a.active {
+            background-color: var(--sidebar-active-link-bg);
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        body.light-mode .sidebar nav ul li a.active {
+            color: var(--primary-blue);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .welcome-banner {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .welcome-banner h2 {
+            font-size: 1.8rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .welcome-banner p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--stat-card-bg);
+            border: 1px solid var(--stat-card-border);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px var(--box-shadow-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card h4 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            background-color: var(--sidebar-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+            min-width: 250px;
+            flex-shrink: 0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .right-sidebar h3 {
+            font-size: 1.4rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-glow);
+            padding-bottom: 10px;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+
+        .online-users-list, .top-karders-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .online-user-item, .top-karder-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: var(--online-user-card-bg);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px var(--box-shadow-color);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .online-user-item img, .top-karder-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-blue);
+            transition: border-color 0.3s ease;
+        }
+
+        .online-user-item .info, .top-karder-item .info {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .online-user-item .info p, .top-karder-item .info p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .online-user-item .info span, .top-karder-item .info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .top-karder-item {
+            border: 1px solid var(--top-karder-border);
+            position: relative;
+            padding-left: 45px; /* Space for rank */
+        }
+
+        .top-karder-item .rank {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 35px;
+            background-color: var(--top-karder-rank-bg);
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: var(--top-karder-rank-text);
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-karder-item .hits {
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .show-all-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+            border: none;
+        }
+        .show-all-btn:hover {
+            background-color: #008eb3;
+            transform: translateY(-2px);
+        }
+
+        /* Keyframe Animations (retained) */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -352,6 +775,22 @@
 
 
         /* Responsive Design */
+        @media (max-width: 767px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .sidebar, .right-sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .main-content {
+                padding: 0; /* Remove horizontal padding on small screens */
+            }
+            .stats-grid {
+                grid-template-columns: 1fr; /* Stack stats vertically on small screens */
+            }
+        }
+
         @media (max-width: 600px) {
             .login-card {
                 padding: 30px 20px;
@@ -380,8 +819,8 @@
             }
 
             .feature-item {
-                width: 80%; /* Make feature items wider on small screens */
-                max-width: unset; /* Remove max-width constraint */
+                width: 80%;
+                max-width: unset;
             }
 
             .text-block h2 {
@@ -399,12 +838,16 @@
         <div class="container">
             <a href="#" class="logo">s4shield.com</a>
             <nav class="nav-links">
-                <!-- Add any other navigation links if needed -->
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark and light mode">
+                    <i class="fas fa-moon"></i> <!-- Default to moon icon for dark mode -->
+                </button>
             </nav>
         </div>
     </header>
 
-    <main class="login-section">
+    <!-- --- Login Page Section --- -->
+    <main id="login-page" class="login-section">
         <div class="container">
             <div class="login-card">
                 <div class="logo-box-icon">
@@ -418,9 +861,9 @@
                     <p>Must set your name, username and profile picture in your Telegram Account.</p>
                 </div>
 
-                <!-- Telegram Login Widget will be inserted here -->
+                <!-- Telegram Login Widget -->
                 <div class="telegram-login-widget-container">
-                    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="FEELINGSxDBOT" data-size="large" data-radius="20" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+                    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="S4XSHIELDBot" data-size="large" data-radius="20" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
                 </div>
 
                 <div class="secondary-buttons">
@@ -456,6 +899,163 @@
         </div>
     </main>
 
+    <!-- --- Dashboard Page Section --- -->
+    <div id="dashboard-page">
+        <div class="dashboard-container">
+            <!-- Left Sidebar -->
+            <aside class="sidebar">
+                <div class="user-profile">
+                    <img id="dashboard-user-photo" src="https://placehold.co/80x80/00bcd4/ffffff?text=U" alt="User Profile Picture">
+                    <h3 id="dashboard-username">@loading_user</h3>
+                    <p>Free User</p>
+                </div>
+                <div class="user-stats">
+                    <p>Credits: <span id="dashboard-credits">100</span></p>
+                    <p>Expiry: <span id="dashboard-expiry">2025-07-31</span></p>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fas fa-shopping-cart"></i> Buy</a></li>
+                        <li><a href="#"><i class="fas fa-gift"></i> Redeem</a></li>
+                        <li><a href="#"><i class="fas fa-check-double"></i> Checkers</a></li>
+                        <li><a href="#"><i class="fas fa-robot"></i> Auto Hitter <span style="font-size: 0.7em; opacity: 0.7;">[ Beta ]</span></a></li>
+                        <li><a href="#"><i class="fas fa-tools"></i> Tools</a></li>
+                        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a href="#" id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <section class="main-content">
+                <div class="welcome-banner">
+                    <h2>Welcome, <span id="welcome-user-name">Guest</span> 👋</h2>
+                </div>
+
+                <h3>Global Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Users</h4>
+                        <p>857</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Hits</h4>
+                        <p>26527</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Charge Card</h4>
+                        <p>3328</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Live Cards</h4>
+                        <p>23199</p>
+                    </div>
+                </div>
+
+                <h3>Your Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Hits</h4>
+                        <p id="your-total-hits">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Charge Card</h4>
+                        <p id="your-total-charge-card">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Live Cards</h4>
+                        <p id="your-total-live-cards">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+                <h3>Online Users</h3>
+                <ul class="online-users-list">
+                    <li class="online-user-item">
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=B" alt="User Avatar">
+                        <div class="info">
+                            <p>Black Sea <span style="background-color: #ffc107; color: #333; padding: 2px 6px; border-radius: 5px; font-size: 0.7em; font-weight: bold;">PREMIUM</span></p>
+                            <span>@Giftcardhp</span>
+                        </div>
+                    </li>
+                    <li class="online-user-item">
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=L" alt="User Avatar">
+                        <div class="info">
+                            <p>Leaved....</p>
+                            <span>@Leavednew</span>
+                        </div>
+                    </li>
+                    <li class="online-user-item">
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=S" alt="User Avatar">
+                        <div class="info">
+                            <p>~SigmaDox~ 🇺🇦🇷🇺</p>
+                            <span>@SIGMADOX7</span>
+                        </div>
+                    </li>
+                    <li class="online-user-item">
+                        <img id="online-current-user-photo" src="https://placehold.co/40x40/00bcd4/ffffff?text=U" alt="User Avatar">
+                        <div class="info">
+                            <p id="online-current-username">@loading_user</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <h3>Top Karders</h3>
+                <ul class="top-karders-list">
+                    <li class="top-karder-item">
+                        <div class="rank">1</div>
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=X" alt="Karder Avatar">
+                        <div class="info">
+                            <p>XUEBA</p>
+                            <span>@indoorsun</span>
+                        </div>
+                        <span class="hits">2,987 Hits</span>
+                    </li>
+                    <li class="top-karder-item">
+                        <div class="rank">2</div>
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=W" alt="Karder Avatar">
+                        <div class="info">
+                            <p>Sir Walter Melon</p>
+                            <span>@SirWalterMelon</span>
+                        </div>
+                        <span class="hits">1,704 Hits</span>
+                    </li>
+                    <li class="top-karder-item">
+                        <div class="rank">3</div>
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=H" alt="Karder Avatar">
+                        <div class="info">
+                            <p>H A M A D</p>
+                            <span>@MrxHamad</span>
+                        </div>
+                        <span class="hits">1,638 Hits</span>
+                    </li>
+                    <li class="top-karder-item">
+                        <div class="rank">4</div>
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=K" alt="Karder Avatar">
+                        <div class="info">
+                            <p>Kushiya Jay</p>
+                            <span>@kushiya_jay</span>
+                        </div>
+                        <span class="hits">1,258 Hits</span>
+                    </li>
+                    <li class="top-karder-item">
+                        <div class="rank">5</div>
+                        <img src="https://placehold.co/40x40/00bcd4/ffffff?text=Z" alt="Karder Avatar">
+                        <div class="info">
+                            <p>Zyltho</p>
+                            <span>@Zyltho</span>
+                        </div>
+                        <span class="hits">744 Hits</span>
+                    </li>
+                </ul>
+                <button class="show-all-btn">Show All</button>
+            </aside>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <p>&copy; 2025 S4Shield. All Rights Reserved.</p>
@@ -471,18 +1071,19 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                background-color: #1a2a4a;
-                color: white;
+                background-color: var(--card-bg);
+                color: var(--text-light);
                 padding: 20px;
                 border-radius: 10px;
-                box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+                box-shadow: 0 0 20px var(--box-shadow-color);
                 z-index: 9999;
                 text-align: center;
                 font-family: 'Inter', sans-serif;
                 max-width: 80%;
                 word-wrap: break-word;
+                transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
             `;
-            messageBox.innerHTML = `<p>${message}</p><button style="margin-top: 15px; padding: 8px 15px; background-color: #00bcd4; color: white; border: none; border-radius: 5px; cursor: pointer;">OK</button>`;
+            messageBox.innerHTML = `<p>${message}</p><button style="margin-top: 15px; padding: 8px 15px; background-color: var(--accent-blue); color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">OK</button>`;
             document.body.appendChild(messageBox);
 
             // Close the message box when OK is clicked
@@ -498,46 +1099,117 @@
             });
         }
 
-        // This function is called by the Telegram Login Widget upon successful authentication
-        function onTelegramAuth(user) {
-            // In a real application, you would send this 'user' data to your backend
-            // for hash verification and session management.
-            // For now, we'll just display the user info.
-            let userInfo = 'Logged in as ' + user.first_name;
-            if (user.last_name) userInfo += ' ' + user.last_name;
-            userInfo += ' (ID: ' + user.id;
-            if (user.username) userInfo += ', @' + user.username;
-            userInfo += ')';
-
-            showMessageBox(userInfo + '<br><br>Now, this user data needs to be sent to your backend server for secure verification using your Bot Token.');
-
-            // Example of sending data to backend (conceptual, requires a backend endpoint):
-            /*
-            fetch('/your-backend-auth-endpoint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user), // 'user' object contains all data from Telegram
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showMessageBox('Backend verification successful! Redirecting...');
-                    // window.location.href = '/dashboard'; // Redirect to dashboard
-                } else {
-                    showMessageBox('Backend verification failed: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error sending data to backend:', error);
-                showMessageBox('An error occurred during login. Please try again.');
-            });
-            */
-        }
+        // Global variables for page elements
+        let loginPage;
+        let dashboardPage;
+        let dashboardUserName;
+        let dashboardUserPhoto;
+        let onlineCurrentUserPhoto;
+        let onlineCurrentUsername;
+        let logoutButton;
+        let themeToggle;
+        let themeToggleIcon;
+        let body;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Get references to the secondary buttons
+            // Get references to page elements
+            loginPage = document.getElementById('login-page');
+            dashboardPage = document.getElementById('dashboard-page');
+            dashboardUserName = document.getElementById('dashboard-username');
+            dashboardUserPhoto = document.getElementById('dashboard-user-photo');
+            onlineCurrentUserPhoto = document.getElementById('online-current-user-photo');
+            onlineCurrentUsername = document.getElementById('online-current-username');
+            logoutButton = document.getElementById('logout-button');
+            themeToggle = document.getElementById('theme-toggle');
+            themeToggleIcon = themeToggle.querySelector('i');
+            body = document.body;
+
+            // Function to set the theme
+            function setTheme(isLightMode) {
+                if (isLightMode) {
+                    body.classList.add('light-mode');
+                    themeToggleIcon.classList.remove('fa-moon');
+                    themeToggleIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.classList.remove('light-mode');
+                    themeToggleIcon.classList.remove('fa-sun');
+                    themeToggleIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            // Check for saved theme preference on load
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                setTheme(true);
+            } else {
+                setTheme(false); // Default to dark if no preference or 'dark'
+            }
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                setTheme(!body.classList.contains('light-mode'));
+            });
+
+            // Function to display the dashboard
+            function displayDashboard(user) {
+                // Populate user data on dashboard
+                document.getElementById('welcome-user-name').textContent = user.first_name || 'Guest';
+                dashboardUserName.textContent = user.username ? `@${user.username}` : user.first_name || 'User';
+                if (user.photo_url) {
+                    dashboardUserPhoto.src = user.photo_url;
+                    onlineCurrentUserPhoto.src = user.photo_url;
+                } else {
+                    // Fallback for user photo if not provided
+                    dashboardUserPhoto.src = `https://placehold.co/80x80/${body.classList.contains('light-mode') ? '0056b3' : '00bcd4'}/ffffff?text=${user.first_name ? user.first_name.charAt(0) : 'U'}`;
+                    onlineCurrentUserPhoto.src = `https://placehold.co/40x40/${body.classList.contains('light-mode') ? '0056b3' : '00bcd4'}/ffffff?text=${user.first_name ? user.first_name.charAt(0) : 'U'}`;
+                }
+                onlineCurrentUsername.textContent = user.username ? `@${user.username}` : user.first_name || 'User';
+
+
+                // Simulate showing dashboard and hiding login
+                loginPage.classList.add('hidden');
+                dashboardPage.classList.add('visible');
+            }
+
+            // Function to display the login page
+            function displayLogin() {
+                dashboardPage.classList.remove('visible');
+                loginPage.classList.remove('hidden');
+            }
+
+            // This function is called by the Telegram Login Widget upon successful authentication
+            window.onTelegramAuth = function(user) {
+                // In a real application, you would send this 'user' data to your backend
+                // for hash verification and session management.
+                // For now, we'll just display the user info and then show the dashboard.
+                let userInfo = 'Logged in as ' + user.first_name;
+                if (user.last_name) userInfo += ' ' + user.last_name;
+                userInfo += ' (ID: ' + user.id;
+                if (user.username) userInfo += ', @' + user.username;
+                userInfo += ')';
+
+                showMessageBox(userInfo + '<br><br>Now, this user data needs to be sent to your backend server for secure verification using your Bot Token.');
+
+                // Simulate a delay for the message box to be seen, then transition to dashboard
+                setTimeout(() => {
+                    displayDashboard(user);
+                }, 1500); // Show dashboard after 1.5 seconds
+            };
+
+            // Event listener for the Logout button
+            if (logoutButton) {
+                logoutButton.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    showMessageBox('Logging out...');
+                    setTimeout(() => {
+                        displayLogin();
+                    }, 1000); // Simulate logout and show login page after 1 second
+                });
+            }
+
+            // Get references to the secondary buttons (on login page)
             const contactAdminBtn = document.querySelector('.btn-contact');
             const joinCommunityBtn = document.querySelector('.btn-community');
 
@@ -553,8 +1225,9 @@
                     showMessageBox('Join Community functionality would go here. (e.g., redirect to a Telegram group link)');
                 });
             }
-            // The Telegram login button's click event is now handled by the widget itself via data-onauth
-            // So, the previous telegramLoginBtn.addEventListener is removed.
+
+            // Initially ensure only the login page is visible
+            displayLogin();
         });
     </script>
 </body>
